@@ -1,4 +1,4 @@
-// import { CarPreview } from "./CarPreview.jsx"
+import { BookPreview } from "./BookPreview.jsx"
 
 
 export function BookList({ books }) {
@@ -12,7 +12,7 @@ export function BookList({ books }) {
     return <ul className="book-list">
         {
             books.map(book => <li key={book.id}>
-                {/* <CarPreview car={car} /> */}
+                <BookPreview book={book} />
                 <div className="book-actions">
                     {/* <button className="remove-btn" onClick={() => onRemoveCar(car.id)}>X</button>
                     <button onClick={() => { onChangeSpeed(car) }}>Increase speed</button>
