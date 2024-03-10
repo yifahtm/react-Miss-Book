@@ -2,12 +2,14 @@ const { useState, useEffect } = React
 
 import { BookList } from '../cmps/BookList.jsx'
 import { BookDetails } from '../cmps/BookDetails.jsx'
+import { UserMsg } from '../cmps/UserMsg.jsx'
 
 import { bookService } from '../services/book.service.js'
 
 export function BookIndex() {
     const [books, setBooks] = useState(null)
     const [selectedBook, setSelectedBook] = useState(null)
+    const [userMsg, setUserMsg] = useState('')
 
     useEffect(() => {
         loadBooks()
@@ -24,17 +26,24 @@ export function BookIndex() {
         bookService.remove(bookId)
             .then(() => {
                 setBooks((prevBooks) => prevBooks.filter(book => book.id !== bookId))
-                // flashMsg(`Book removed successfully (${bookId})`)
+                flashMsg(`Book removed successfully (${bookId})`)
             })
             .catch((err) => {
                 console.log('Had issues removing book', err)
-                // flashMsg(`Could not remove book (${bookId})`)
+                flashMsg(`Could not remove book (${bookId})`)
             })
     }
 
     function onSelectBook(book) {
         console.log('selected book', book)
         setSelectedBook(book)
+    }
+
+    function flashMsg(txt) {
+        setUserMsg(txt)
+        setTimeout(() => {
+            setUserMsg('')
+        }, 3000)
     }
 
     if (!books) return <div>loading...</div>
@@ -57,6 +66,7 @@ export function BookIndex() {
                     onGoBack={() => onSelectBook(null)}
                 />
             }
+            <UserMsg msg={userMsg} />
         </section >
     )
 }
