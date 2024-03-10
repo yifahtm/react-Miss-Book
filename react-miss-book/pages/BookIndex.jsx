@@ -1,7 +1,7 @@
 const { useState, useEffect } = React
 
 import { BookList } from '../cmps/BookList.jsx'
-import { BookDetails } from '../cmps/BookDetails.jsx'
+import { BookDetails } from '../pages/BookDetails.jsx'
 import { UserMsg } from '../cmps/UserMsg.jsx'
 
 import { bookService } from '../services/book.service.js'
