@@ -1,5 +1,7 @@
 const { useState, useEffect } = React
 
+import { BookList } from '../cmps/BookList.jsx'
+
 import { bookService } from '../services/book.service.js'
 
 export function BookIndex() {
@@ -7,7 +9,7 @@ export function BookIndex() {
 
 
     useEffect(() => {
-        // loadBooks()
+        loadBooks()
     }, [])
 
     function loadBooks() {
@@ -21,6 +23,12 @@ export function BookIndex() {
     return (
         <section className="book-index">
             <h1>Our books</h1>
+            <BookList
+                books={books}
+            // onRemoveCar={onRemoveCar}
+            // onUpdateCar={onUpdateCar}
+            // onSelectCar={onSelectCar}
+            />
         </section >
     )
 }

@@ -8,7 +8,7 @@ import { BookIndex } from './pages/BookIndex.jsx'
 // import { AppHeader } from '../cmps/AppHeader.jsx'
 
 export function RootCmp() {
-    const [page, setPage] = useState('home')
+    const [page, setPage] = useState('book')
 
     console.log(page)
 

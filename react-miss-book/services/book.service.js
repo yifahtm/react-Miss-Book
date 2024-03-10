@@ -73,16 +73,22 @@ function _createBooks() {
     let books = utilService.loadFromStorage(BOOK_KEY)
     if (!books || !books.length) {
         books = []
-        books.push(_createBook('audu', 300))
-        books.push(_createBook('fiak', 120))
-        books.push(_createBook('subali', 100))
-        books.push(_createBook('mitsu', 150))
+        books.push(_createBook("metus hendrerit", 300))
+        books.push(_createBook("morbi", 120))
+        books.push(_createBook("at viverra venenatis", 100))
         utilService.saveToStorage(BOOK_KEY, books)
     }
 }
 
 function _createBook(title, maxPages = 800) {
     const book = getEmptyBook(title, maxPages)
-    book.id = utilService.makeId()
+    book.id = utilService.makeId(),
+        book.description = utilService.makeLorem(100),
+        book.thumbnail = "http://coding-academy.org/books-photos/20.jpg",
+        book.listPrice = {
+            amount: 109,
+            currencyCode: "EUR",
+            isOnSale: false
+        }
     return book
 }
