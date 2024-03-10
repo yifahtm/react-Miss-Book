@@ -20,6 +20,18 @@ export function BookIndex() {
             })
     }
 
+    function onRemoveBook(bookId) {
+        bookService.remove(bookId)
+            .then(() => {
+                setBooks((prevBooks) => prevBooks.filter(book => book.id !== bookId))
+                // flashMsg(`Book removed successfully (${bookId})`)
+            })
+            .catch((err) => {
+                console.log('Had issues removing book', err)
+                // flashMsg(`Could not remove book (${bookId})`)
+            })
+    }
+
     function onSelectBook(book) {
         console.log('selected book', book)
         setSelectedBook(book)
@@ -33,7 +45,7 @@ export function BookIndex() {
                     <h1>Our books</h1>
                     <BookList
                         books={books}
-                        // onRemoveCar={onRemoveCar}
+                        onRemoveBook={onRemoveBook}
                         // onUpdateCar={onUpdateCar}
                         onSelectBook={onSelectBook}
                     />
