@@ -4,7 +4,6 @@ const { Link } = ReactRouterDOM
 
 import { LongTxt } from "../cmps/LongTxt.jsx"
 
-<<<<<<< HEAD
 import { bookService } from "../services/book.service.js"
 
 export function BookDetails() {
@@ -30,12 +29,6 @@ export function BookDetails() {
                 setIsLoading(false)
             })
     }
-
-=======
-import { carService } from "../services/car.service.js"
-
-export function BookDetails({ book, onGoBack }) {
->>>>>>> 07383f3edda8fb679b05d914cac0f6373cf698de
     function readingLevel() {
         if (book.pageCount > 500) return 'Serious Reading'
         if (book.pageCount > 200) return 'Descent Reading'

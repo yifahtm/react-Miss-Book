@@ -5,11 +5,8 @@ import { BookList } from '../cmps/BookList.jsx'
 import { BookFilter } from './../cmps/BookFilter.jsx'
 
 import { bookService } from '../services/book.service.js'
-<<<<<<< HEAD
-import { eventBusService, showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
-=======
+
 // import { eventBusService, showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
->>>>>>> 07383f3edda8fb679b05d914cac0f6373cf698de
 
 export function BookIndex() {
     const [books, setBooks] = useState(null)
@@ -64,10 +61,6 @@ export function BookIndex() {
         <BookList
             books={books}
             onRemoveBook={onRemoveBook}
-<<<<<<< HEAD
-=======
-        // onUpdateCar={onUpdateCar}
->>>>>>> 07383f3edda8fb679b05d914cac0f6373cf698de
         />
     </section >
 }
