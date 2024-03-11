@@ -1,4 +1,10 @@
+const { useState, useEffect } = React
+const { useParams, useNavigate } = ReactRouter
+const { Link } = ReactRouterDOM
+
 import { LongTxt } from "../cmps/LongTxt.jsx"
+
+import { carService } from "../services/car.service.js"
 
 export function BookDetails({ book, onGoBack }) {
     function readingLevel() {
