@@ -2,7 +2,8 @@ import { utilService } from './util.service.js'
 import { storageService } from './async-storage.service.js'
 
 const BOOK_KEY = 'bookDB'
-var gFilterBy = { txt: '', minPages: 0 }
+var gFilterBy = { title: '', price: 0 }
+
 _createBooks()
 
 export const bookService = {
@@ -13,18 +14,21 @@ export const bookService = {
     getEmptyBook,
     getNextBookId,
     getFilterBy,
-    setFilterBy
+    setFilterBy,
+    getDefaultFilter
 }
+
+window.bs = bookService
 
 function query() {
     return storageService.query(BOOK_KEY)
         .then(books => {
-            if (gFilterBy.txt) {
-                const regex = new RegExp(gFilterBy.txt, 'i')
+            if (gFilterBy.title) {
+                const regex = new RegExp(gFilterBy.title, 'i')
                 books = books.filter(book => regex.test(book.title))
             }
-            if (gFilterBy.minPages) {
-                books = books.filter(book => book.maxPages >= gFilterBy.minPages)
+            if (gFilterBy.price) {
+                books = books.filter(book => book.listPrice.amount >= gFilterBy.price)
             }
             return books
         })
@@ -46,17 +50,21 @@ function save(book) {
     }
 }
 
-function getEmptyBook(title = '', maxPages = 0) {
-    return { id: '', title, maxPages: maxPages }
+function getEmptyBook(title = '') {
+    return { title }
 }
 
 function getFilterBy() {
     return { ...gFilterBy }
 }
 
+function getDefaultFilter() {
+    return { title: '', miPrice: 50, desc: '' }
+}
+
 function setFilterBy(filterBy = {}) {
-    if (filterBy.txt !== undefined) gFilterBy.txt = filterBy.txt
-    if (filterBy.minPages !== undefined) gFilterBy.minPages = filterBy.minPages
+    if (filterBy.title !== undefined) gFilterBy.title = filterBy.title
+    if (filterBy.price !== undefined) gFilterBy.price = filterBy.price
     return gFilterBy
 }
 
@@ -76,17 +84,17 @@ function _createBooks() {
         books.push(_createBook("metus hendrerit", 300))
         books.push(_createBook("morbi", 120))
         books.push(_createBook("at viverra venenatis", 100))
-        utilService.saveToStorage(BOOK_KEY, books)
+        if (books) utilService.saveToStorage(BOOK_KEY, books)
     }
 }
 
-function _createBook(title, maxPages = 800) {
-    const book = getEmptyBook(title, maxPages)
+function _createBook(title, amount) {
+    const book = getEmptyBook(title)
     book.id = utilService.makeId(),
         book.description = utilService.makeLorem(100),
         book.thumbnail = "http://coding-academy.org/books-photos/20.jpg",
         book.listPrice = {
-            amount: 109,
+            amount,
             currencyCode: "EUR",
             isOnSale: false
         }
