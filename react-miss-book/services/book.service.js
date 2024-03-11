@@ -51,8 +51,28 @@ function save(book) {
     }
 }
 
-function getEmptyBook(title = '') {
-    return { title }
+function getEmptyBook(title = '', amount = 0) {
+    return {
+        title: "",
+        subtitle: "",
+        authors: [
+            ""
+        ],
+        publishedDate: 1999,
+        description: "",
+        pageCount: 713,
+        categories: [
+            "Computers",
+            "Hack"
+        ],
+        thumbnail: "",
+        language: "en",
+        listPrice: {
+            amount: 109,
+            currencyCode: "EUR",
+            isOnSale: false
+        }
+    }
 }
 
 function getFilterBy() {
@@ -229,7 +249,7 @@ gBooks = [
             "Computers",
             "Hack"
         ],
-        thumbnail: "http://coding-academy.org/books-photos/1.jpg",
+        thumbnail: "http://coding-academy.org/books-photos/11.jpg",
         language: "en",
         listPrice: {
             amount: 91,

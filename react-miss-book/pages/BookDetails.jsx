@@ -20,7 +20,11 @@ export function BookDetails() {
     function loadBook() {
         setIsLoading(true)
         bookService.get(params.bookId)
-            .then(book => setBook(book))
+            .then(book => {
+                setBook(book)
+                console.log(book)
+            }
+            )
             .catch(err => {
                 console.log('Had issues loading book', err)
                 navigate('/book')

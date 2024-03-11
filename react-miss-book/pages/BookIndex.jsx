@@ -56,7 +56,7 @@ export function BookIndex() {
         <BookFilter
             onSetFilter={onSetFilter}
             filterBy={filterBy} />
-        {/* <Link to="/car/edit"><button>Add a car</ */}
+        <Link to="/book/edit"><button>Add a book</button></Link>
         <h1>Our books</h1>
         <BookList
             books={books}
