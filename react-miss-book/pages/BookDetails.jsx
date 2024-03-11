@@ -1,6 +1,35 @@
+const { useState, useEffect } = React
+const { useParams, useNavigate } = ReactRouter
+const { Link } = ReactRouterDOM
+
 import { LongTxt } from "../cmps/LongTxt.jsx"
 
-export function BookDetails({ book, onGoBack }) {
+import { bookService } from "../services/book.service.js"
+
+export function BookDetails() {
+    const [isLoading, setIsLoading] = useState(true)
+    const [book, setBook] = useState(null)
+    const params = useParams()
+    const navigate = useNavigate()
+    console.log('params', params)
+
+    useEffect(() => {
+        loadBook()
+    }, [params.bookId])
+
+    function loadBook() {
+        setIsLoading(true)
+        bookService.get(params.bookId)
+            .then(book => setBook(book))
+            .catch(err => {
+                console.log('Had issues loading book', err)
+                navigate('/book')
+            })
+            .finally(() => {
+                setIsLoading(false)
+            })
+    }
+
     function readingLevel() {
         if (book.pageCount > 500) return 'Serious Reading'
         if (book.pageCount > 200) return 'Descent Reading'
@@ -21,8 +50,10 @@ export function BookDetails({ book, onGoBack }) {
     }
 
 
+    if (isLoading) return <div>Loading details..</div>
     return <section className="book-details">
-        <button onClick={onGoBack}>Go back</button>
+        <Link to="/book"><button>Go back</button></Link>
+
         <h1>{book.title}</h1>
         <h2>{book.subtitle}</h2>
         <h3 className={priceInColor()}>{book.listPrice.amount + ' ' + book.listPrice.currencyCode}</h3>

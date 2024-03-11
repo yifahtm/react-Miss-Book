@@ -1,15 +1,14 @@
 const { useState, useEffect } = React
+const { Link } = ReactRouterDOM
 
 import { BookList } from '../cmps/BookList.jsx'
-import { BookDetails } from '../pages/BookDetails.jsx'
 import { BookFilter } from './../cmps/BookFilter.jsx'
-import { UserMsg } from '../cmps/UserMsg.jsx'
 
 import { bookService } from '../services/book.service.js'
+import { eventBusService, showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 
 export function BookIndex() {
     const [books, setBooks] = useState(null)
-    const [selectedBook, setSelectedBook] = useState(null)
     const [filterBy, setFilterBy] = useState
         (bookService.getFilterBy())
     const [userMsg, setUserMsg] = useState('')
@@ -35,16 +34,13 @@ export function BookIndex() {
             .then(() => {
                 setBooks((prevBooks) => prevBooks.filter(book => book.id !== bookId))
                 flashMsg(`Book removed successfully (${bookId})`)
+                //     showSuccessMsg(`Book removed successfully (${bookId})`)
             })
             .catch((err) => {
                 console.log('Had issues removing book', err)
                 flashMsg(`Could not remove book (${bookId})`)
+                // showErrorMsg(`Could not remove book(${bookId})`)
             })
-    }
-
-    function onSelectBook(book) {
-        console.log('selected book', book)
-        setSelectedBook(book)
     }
 
     function flashMsg(txt) {
@@ -55,29 +51,15 @@ export function BookIndex() {
     }
 
     if (!books) return <div>loading...</div>
-    return (
-        <section className="book-index">
-            {
-                !selectedBook && <React.Fragment>
-                    <BookFilter
-                        onSetFilter={onSetFilter}
-                        filterBy={filterBy} />
-                    <h1>Our books</h1>
-                    <BookList
-                        books={books}
-                        onRemoveBook={onRemoveBook}
-                        // onUpdateCar={onUpdateCar}
-                        onSelectBook={onSelectBook}
-                    />
-                </React.Fragment>
-            }
-            {
-                selectedBook && <BookDetails
-                    book={selectedBook}
-                    onGoBack={() => onSelectBook(null)}
-                />
-            }
-            <UserMsg msg={userMsg} />
-        </section >
-    )
+    return <section className="book-index">
+        <BookFilter
+            onSetFilter={onSetFilter}
+            filterBy={filterBy} />
+        {/* <Link to="/car/edit"><button>Add a car</ */}
+        <h1>Our books</h1>
+        <BookList
+            books={books}
+            onRemoveBook={onRemoveBook}
+        />
+    </section >
 }
