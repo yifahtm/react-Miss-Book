@@ -1,21 +1,42 @@
-
+import { LongTxt } from "../cmps/LongTxt.jsx"
 
 export function BookDetails({ book, onGoBack }) {
+    function readingLevel() {
+        if (book.pageCount > 500) return 'Serious Reading'
+        if (book.pageCount > 200) return 'Descent Reading'
+        if (book.pageCount < 100) return 'Light Reading'
+        return ''
+    }
 
-    // Render time methods
-    // function getSpeedClass() {
-    //     if (car.maxSpeed > 100) return 'fast'
-    //     else if (car.maxSpeed < 80) return 'slow'
-    //     else return ''
-    // }
-    const priceDetails = book.listPrice
+    function publishDate() {
+        const date = new Date
+        if (date.getFullYear() - book.publishedDate > 10) return 'Vintage'
+        if (date.getFullYear() - book.publishedDate < 1) return 'New'
+        return ''
+    }
+
+    function priceInColor() {
+        if (book.listPrice.amount > 150) return 'red'
+        if (book.listPrice.amount < 20) return 'green'
+    }
+
+
     return <section className="book-details">
         <button onClick={onGoBack}>Go back</button>
-        <h1>Title : {book.title}</h1>
-        <h5>Number of pages: {book.numOfPages}</h5>
+        <h1>{book.title}</h1>
+        <h2>{book.subtitle}</h2>
+        <h3 className={priceInColor()}>{book.listPrice.amount + ' ' + book.listPrice.currencyCode}</h3>
+        <h3 className="on-sale">{(book.listPrice.isOnSale ? ' On Sale' : '')}</h3>
+        <h4>{publishDate()}</h4>
+        <div>{book.authors.map(author => {
+            return <h4 key={author}>{author}</h4>
+        })}
+        </div>
         <img src={book.thumbnail} />
-        <h5>Price: {priceDetails.price}</h5>
-        <h5>On Sale: {priceDetails.isOnsale ? 'Yes' : 'No'}</h5>
-        <p>{book.description}</p>
+        <LongTxt txt={book.description} length={30} />
+        {/* <p>{book.description}</p> */}
+        <p>Publish date: {book.publishedDate}</p>
+        <p>Page count: {book.pageCount} {readingLevel()}</p>
+        <p>Language: {book.language}</p>
     </section>
 }
