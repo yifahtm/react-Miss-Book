@@ -12,7 +12,7 @@ import { BookEdit } from './pages/BookEdit.jsx'
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { Team } from './cmps/AboutTeam.jsx'
 import { Vision } from './cmps/AboutVision.jsx'
-// import { UserMsg } from './cmps/UserMsg.jsx'
+import { UserMsg } from './cmps/UserMsg.jsx'
 
 export function RootCmp() {
     return <Router>
@@ -35,7 +35,7 @@ export function RootCmp() {
                 </Routes>
             </main>
 
-            {/* <UserMsg /> */}
+            <UserMsg />
         </section>
     </Router>
 }

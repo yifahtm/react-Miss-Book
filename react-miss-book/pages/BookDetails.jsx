@@ -67,8 +67,7 @@ export function BookDetails() {
         })}
         </div>
         <img src={book.thumbnail} />
-        <LongTxt txt={book.description} length={30} />
-        {/* <p>{book.description}</p> */}
+        <LongTxt txt={book.description} length={100} />
         <p>Publish date: {book.publishedDate}</p>
         <p>Page count: {book.pageCount} {readingLevel()}</p>
         <p>Language: {book.language}</p>

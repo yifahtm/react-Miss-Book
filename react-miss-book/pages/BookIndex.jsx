@@ -6,7 +6,7 @@ import { BookFilter } from './../cmps/BookFilter.jsx'
 
 import { bookService } from '../services/book.service.js'
 
-// import { eventBusService, showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
+import { eventBusService, showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 
 export function BookIndex() {
     const [books, setBooks] = useState(null)
@@ -34,13 +34,13 @@ export function BookIndex() {
         bookService.remove(bookId)
             .then(() => {
                 setBooks((prevBooks) => prevBooks.filter(book => book.id !== bookId))
-                flashMsg(`Book removed successfully (${bookId})`)
-                //     showSuccessMsg(`Book removed successfully (${bookId})`)
+                // flashMsg(`Book removed successfully (${bookId})`)
+                showSuccessMsg(`Book removed successfully (${bookId})`)
             })
             .catch((err) => {
                 console.log('Had issues removing book', err)
-                flashMsg(`Could not remove book (${bookId})`)
-                // showErrorMsg(`Could not remove book(${bookId})`)
+                // flashMsg(`Could not remove book (${bookId})`)
+                showErrorMsg(`Could not remove book(${bookId})`)
             })
     }
 

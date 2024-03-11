@@ -4,12 +4,6 @@ import { BookPreview } from "./BookPreview.jsx"
 
 
 export function BookList({ books, onRemoveBook }) {
-
-    // function onChangeSpeed(car) {
-    //     car = { ...car, maxSpeed: car.maxSpeed + 10 }
-    //     onUpdateCar(car)
-    // }
-
     if (!books.length) return <div>No books to show</div>
     return <ul className="book-list">
         {
