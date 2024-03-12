@@ -2,7 +2,7 @@ const { useState, useEffect } = React
 const { useNavigate, useParams } = ReactRouter
 
 import { bookService } from "../services/book.service.js"
-import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
+import { showErrorMsg, showSuccessMsg, showUserMsg } from "../services/event-bus.service.js"
 
 
 export function BookEdit() {
@@ -20,6 +20,7 @@ export function BookEdit() {
             .then(setBookToEdit)
             .catch(err => {
                 console.log('Had issues loading book', err)
+                showUserMsg(`Could not load`)
                 navigate('/book')
             })
     }

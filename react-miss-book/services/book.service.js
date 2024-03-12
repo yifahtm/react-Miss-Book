@@ -16,7 +16,10 @@ export const bookService = {
     getNextBookId,
     getFilterBy,
     setFilterBy,
-    getDefaultFilter
+    getDefaultFilter,
+    getEmptyReview,
+    addReview,
+    removeReview,
 }
 
 window.bs = bookService
@@ -84,6 +87,31 @@ function getNextBookId(bookId) {
             if (idx === books.length - 1) idx = -1
             return books[idx + 1].id
         })
+}
+
+function getEmptyReview() {
+    return { id: utilService.makeId(), fullName: '', rating: 1, readAt: '' }
+}
+
+function addReview(bookId, review) {
+    return get(bookId)
+        .then(book => {
+            if (book.reviews && book.reviews.length) {
+                book.reviews.push(review)
+            } else book.reviews = [review]
+            return book
+        })
+        .then(save)
+}
+
+function removeReview(bookId, reviewId) {
+    return get(bookId)
+        .then(book => {
+            const reviewIdx = book.reviews.findIndex(review => review.id === reviewId)
+            book.reviews.splice(reviewIdx, 1)
+            return book
+        })
+        .then(save)
 }
 
 function _createBooks() {
