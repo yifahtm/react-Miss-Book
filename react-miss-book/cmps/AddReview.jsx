@@ -1,4 +1,5 @@
 const { useState } = React
+import { DynamicRating } from './DynamicRating.jsx'
 
 import { bookService } from '../services/book.service.js'
 import { showErrorMsg } from '../services/event-bus.service.js'
@@ -37,7 +38,7 @@ export function AddReview({ addReview, onCloseReview }) {
     function isValidReview() {
         return !!reviewDetails.fullName && !!reviewDetails.readAt
     }
-
+    let cmpType = 'stars'
     return (
         <section className="add-review-container">
             <button onClick={onCloseReview} className="btn-close">
@@ -60,6 +61,7 @@ export function AddReview({ addReview, onCloseReview }) {
 
                 <div className="input-container">
                     <label htmlFor="rating">Rating</label>
+                    <DynamicRating cmpType={cmpType} />
                     <select name="rating" id="rating" onChange={handleChange}>
                         <option value="1">1</option>
                         <option value="2">2</option>
