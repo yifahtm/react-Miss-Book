@@ -5,7 +5,7 @@ const BOOK_KEY = 'bookDB'
 let gBooks
 var gFilterBy = { title: '', price: 0 }
 
-// _createBooks()
+_createBooks()
 
 export const bookService = {
     query,
@@ -21,18 +21,17 @@ export const bookService = {
 
 window.bs = bookService
 
-function query() {
-    return storageService.query(BOOK_KEY)
-        .then(books => {
-            if (gFilterBy.title) {
-                const regex = new RegExp(gFilterBy.title, 'i')
-                books = books.filter(book => regex.test(book.title))
-            }
-            if (gFilterBy.price) {
-                books = books.filter(book => book.listPrice.amount >= gFilterBy.price)
-            }
-            return books
-        })
+function query(filterBy = getDefaultFilter()) {
+    return storageService.query(BOOK_KEY).then(books => {
+        if (filterBy.title) {
+            const regex = new RegExp(filterBy.title, 'i')
+            books = books.filter(book => regex.test(book.title))
+        }
+        if (filterBy.price) {
+            books = books.filter(book => book.listPrice.amount >= gFilterBy.price)
+        }
+        return books
+    })
 }
 
 function get(bookId) {
@@ -47,31 +46,20 @@ function save(book) {
     if (book.id) {
         return storageService.put(BOOK_KEY, book)
     } else {
-        return storageService.post(BOOK_KEY, book)
+        return storageService.post(BOOK_KEY, _createBook(book.title, book.listPrice.amount))
     }
 }
 
-function getEmptyBook(title = '', amount = 0) {
+function getEmptyBook() {
     return {
-        title: "",
-        subtitle: "",
-        authors: [
-            ""
-        ],
-        publishedDate: 1999,
-        description: "",
-        pageCount: 713,
-        categories: [
-            "Computers",
-            "Hack"
-        ],
-        thumbnail: "",
-        language: "en",
+        title: '',
+        description: '',
+        thumbnail: utilService.getRandomImg(),
         listPrice: {
-            amount: 109,
-            currencyCode: "EUR",
-            isOnSale: false
-        }
+            amount: 0,
+            currencyCode: 'EUR',
+            isOnSale: Math.random() > 0.5 ? true : false,
+        },
     }
 }
 
@@ -80,7 +68,7 @@ function getFilterBy() {
 }
 
 function getDefaultFilter() {
-    return { title: '', miPrice: 50, desc: '' }
+    return { title: '' }
 }
 
 function setFilterBy(filterBy = {}) {
@@ -110,19 +98,20 @@ function _createBooks() {
     }
 }
 
-function _createBook(title, amount, currencyCode = 'EUR', isOnSale = false) {
-    return {
-        id: utilService.makeId(),
-        title,
-        description: utilService.makeLorem(20),
-        thumbnail: 'http://coding-academy.org/books-photos/20.jpg',
-        listPrice: {
-            amount,
-            currencyCode,
-            isOnSale
-        }
-    }
+function _createBook(title, price) {
+    const book = getEmptyBook()
+    book.id = utilService.makeId()
+    book.title = title
+    book.listPrice.amount = price
+    book.subtitle = utilService.makeLorem(5)
+    book.authors = ['Barbara Cartland']
+    book.pageCount = 800
+    book.language = 'en'
+    book.description = utilService.makeLorem(20)
+    book.categories = ['Action', 'Romantic']
+    return book
 }
+
 
 gBooks = [
     {
@@ -566,5 +555,3 @@ gBooks = [
         }
     }
 ]
-
-_createBooks()

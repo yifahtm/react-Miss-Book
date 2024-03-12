@@ -17,7 +17,7 @@ export function BookEdit() {
 
     function loadBook() {
         bookService.get(bookId)
-            .then(book => setBookToEdit(book))
+            .then(setBookToEdit)
             .catch(err => {
                 console.log('Had issues loading book', err)
                 navigate('/book')
@@ -27,70 +27,68 @@ export function BookEdit() {
 
     function onSaveBook(ev) {
         ev.preventDefault()
+        if (!isValidBook()) return showErrorMsg('Must enter all details')
 
-        bookService.save(bookToEdit)
+        bookService
+            .save(bookToEdit)
             .then(savedBook => {
+                showSuccessMsg(`Book saved successfully ${savedBook.id}`)
                 navigate('/book')
-                showSuccessMsg('Book saved successfully')
-                console.log('savedBook', savedBook)
             })
             .catch(err => {
-                console.log('Had issues saving book', err)
-                showErrorMsg('could not save book')
+                console.log('Had issues with saving book: ', err)
+                showErrorMsg(`Could not save book`)
             })
+    }
 
+    function isValidBook() {
+        return !!bookToEdit.title && !!bookToEdit.listPrice.amount
     }
 
     function handleChange({ target }) {
-        const field = target.name
-        let value = target.value
-
-        // switch (target.type) {
-        //     case 'number':
-        //     case 'range':
-        //         value = +value || ''
-        //         break
-
-        //     default:
-        //         break
-        // }
-        // if (target.type === 'number' || target.type === 'range') {
-        //     value = +value || ''
-        //     setBookToEdit(prevBookToEdit => ({ ...prevBookToEdit, [listPrice.field]: value }))
-        // } else {
+        let { value, name: field, type } = target
+        if (type === 'number') value = +value
+        if (field === 'amount') {
+            const listPrice = { ...bookToEdit.listPrice, [field]: value }
+            setBookToEdit(prevBookToEdit => ({ ...prevBookToEdit, listPrice }))
+            return
+        }
         setBookToEdit(prevBookToEdit => ({ ...prevBookToEdit, [field]: value }))
-        // }
-
-
     }
 
-    const { title, listPrice } = bookToEdit
+    const { title } = bookToEdit
+    const { amount } = bookToEdit.listPrice
     return (
-        <section className="book-edit">
-            <form onSubmit={onSaveBook} >
-                <label htmlFor="title">Title:</label>
-                <input
-                    type="text"
-                    id="title"
-                    placeholder="Enter title"
+        <section className="book-edit flex column align-center">
+            <h3>Edit Book</h3>
 
-                    name="title"
-                    onChange={handleChange}
-                    value={title}
-                />
+            <form onSubmit={onSaveBook} className="flex column">
+                <div className="input-container flex align-center">
+                    <label htmlFor="title">Title</label>
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder="New title"
+                        name="title"
+                        onChange={handleChange}
+                        value={title}
+                    />
+                </div>
 
-                <label htmlFor="amount">Price:</label>
-                <input
-                    type="number"
-                    id="amount"
-                    placeholder="Enter price"
+                <div className="input-container flex align-center">
+                    <label htmlFor="price">Price</label>
+                    <input
+                        type="number"
+                        id="price"
+                        min="0"
+                        placeholder="New price"
+                        name="amount"
+                        onChange={handleChange}
+                        value={+amount || ''}
+                    />
+                </div>
 
-                    name="amount"
-                    onChange={handleChange}
-                    value={listPrice.amount}
-                />
-
-                <button>Save</button>
+                <button>Save Book</button>
             </form>
         </section>
     )
