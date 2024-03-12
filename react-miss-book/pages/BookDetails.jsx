@@ -102,14 +102,12 @@ export function BookDetails() {
             </span>
         </p>
         {isOnSale && <p className="sale">On sale!</p>}
-        <div>{book.authors.map(author => {
-            return <h4 key={author}>{author}</h4>
-        })}
+        <div>{book.authors.map(author => <h4 key={author}>{author}</h4>)}
         </div>
         <img src={book.thumbnail} />
         <LongTxt txt={book.description} length={100} />
-        <p>Publish date: {book.publishedDate}{publishDate()}</p>
-        <p>Page count: {book.pageCount} {readingLevel()}</p>
+        <p>Publish date:{book.publishedDate}| {publishDate()}</p>
+        <p>Page count: {book.pageCount}| {readingLevel()}</p>
         <span className="book-categories">
             {book.categories.join(' | ')},
         </span>

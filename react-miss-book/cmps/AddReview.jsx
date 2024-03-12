@@ -1,9 +1,9 @@
-const { useState, useEffect } = React
+const { useState } = React
 
 import { bookService } from '../services/book.service.js'
 import { showErrorMsg } from '../services/event-bus.service.js'
 
-export function AddReview({ bookId, addReview, onCloseReview }) {
+export function AddReview({ addReview, onCloseReview }) {
     const [reviewDetails, setReviewDetails] = useState(
         bookService.getEmptyReview()
     )
@@ -69,7 +69,7 @@ export function AddReview({ bookId, addReview, onCloseReview }) {
                     </select>
                 </div>
 
-                <div className="input-containe">
+                <div className="input-container">
                     <label htmlFor="readAt">Read at</label>
                     <input
                         type="date"
@@ -79,7 +79,7 @@ export function AddReview({ bookId, addReview, onCloseReview }) {
                     />
                 </div>
 
-                <button className="btn-submit">Add Review</button>
+                <button className="btn-submit">Add </button>
             </form>
         </section>
     )

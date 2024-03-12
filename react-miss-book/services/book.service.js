@@ -4,8 +4,10 @@ import { storageService } from './async-storage.service.js'
 const BOOK_KEY = 'bookDB'
 let gBooks
 var gFilterBy = { title: '', price: 0 }
+const url = 'https://www.googleapis.com/books/v1/volumes?printType=books&q=effective%2520javascript'
 
 _createBooks()
+getContacts(printBooks)
 
 export const bookService = {
     query,
@@ -583,3 +585,28 @@ gBooks = [
         }
     }
 ]
+
+function printBooks(books) {
+    console.log(books)
+}
+
+function getContacts(onSuccess) {
+    const xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            const res = JSON.parse(xhr.responseText)
+            console.log(res);
+            onSuccess(res)
+        }
+    }
+
+    // xhr.onload = () => {
+    //     if (xhr.status === 200) {
+    //         const res = JSON.parse(xhr.responseText)
+    //         onSuccess(res)
+    //     }
+    // }
+
+    xhr.open('GET', url, true)
+    xhr.send()
+}

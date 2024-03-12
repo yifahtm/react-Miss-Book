@@ -59,8 +59,10 @@ export function BookEdit() {
 
     const { title } = bookToEdit
     const { amount } = bookToEdit.listPrice
+
+    if (!bookToEdit) return <div>Loading details..</div>
     return (
-        <section className="book-edit flex column align-center">
+        <section className="book-edit">
             <h3>Edit Book</h3>
 
             <form onSubmit={onSaveBook} className="flex column">
